@@ -45,9 +45,6 @@ def get_courses(db):
 
 
 def get_student_courses(db, course_id):
-    # courses_ids = db.execute(f'''SELECT student_id FROM student_course WHERE course_id == {course_id}''')
-    # students = [db.execute(f'''SELECT * FROM students WHERE id == {i}''') for i in courses_ids]
-    # return students
     return [i for i in db.execute(f'SELECT name FROM students WHERE id = (SELECT student_id FROM student_course WHERE course_id = {course_id})')]
 
 
@@ -86,7 +83,7 @@ while True:
         case "6":
             course_id = int(input("Введіть айді курса:"))
             selected_course = db.execute(f'SELECT course_name FROM courses WHERE course_id == {course_id}')
-            print(f'На курсі {[i for i in selected_course.fetchone()]} знаходяться учні:')
+            print(f'На курсі {selected_course.fetchone()} знаходяться учні:')
             print(get_student_courses(db, course_id))
         case "7":
             break
